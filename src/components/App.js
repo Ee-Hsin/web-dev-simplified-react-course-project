@@ -20,18 +20,18 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const filteredRecipes = recipes.filter(recipe => recipe.name.includes(searchQuery));
 
-  //useEffect to restore past state from local storage
-  useEffect(() => {
-    const recipeJSON = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (recipeJSON != null){
-      setRecipes(JSON.parse(recipeJSON))
-    }
-  }, [])
+  // //useEffect to restore past state from local storage
+  // useEffect(() => {
+  //   const recipeJSON = localStorage.getItem(LOCAL_STORAGE_KEY);
+  //   if (recipeJSON != null){
+  //     setRecipes(JSON.parse(recipeJSON))
+  //   }
+  // }, [])
 
-  //useEffect to persist state
-  useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(recipes));
-  },[recipes])
+  // //useEffect to persist state
+  // useEffect(() => {
+  //   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(recipes));
+  // },[recipes])
 
   //Compiling the Recipe context values (the functions are below)
   const RecipeContextValue = {
@@ -78,7 +78,16 @@ function App() {
       instructions: '',
       ingredients: [
         {id: uuidv4(), name: '', amount: ''}
-      ]
+      ],
+      creators: [{
+        id: 1,
+        firstName: 'Dan',
+        lastName: 'Bilzerian'
+      }, {
+        id: 2,
+        firstName: 'James',
+        lastName: 'Connery'
+      }]
     }
     setRecipes(prevRecipes => [...prevRecipes, newRecipe]);
     setSelectedRecipeId(newId);
@@ -115,6 +124,15 @@ const sampleRecipes = [
       id: 2,
       name: 'Paprika',
       amount: '2 Tbs'
+    }],
+    creators: [{
+      id: 1,
+      firstName: 'Dan',
+      lastName: 'Bilzerian'
+    }, {
+      id: 2,
+      firstName: 'James',
+      lastName: 'Connery'
     }]
   },
   {
@@ -131,6 +149,15 @@ const sampleRecipes = [
       id: 2,
       name: 'Paprika',
       amount: '2 Tbs'
+    }],
+    creators: [{
+      id: 1,
+      firstName: 'Dan',
+      lastName: 'Bilzerian'
+    }, {
+      id: 2,
+      firstName: 'James',
+      lastName: 'Connery'
     }]
   }
 ];
