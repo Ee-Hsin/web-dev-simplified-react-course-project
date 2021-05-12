@@ -1,0 +1,18 @@
+.search-bar-container{
+    width: 100%;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid black;
+}
+
+.search-bar-container__search-bar{
+    width: 15%;
+    height: 1.5rem;
+    font-size: inherit;
+}
+
+.search-bar-container__search-bar-label{
+    font-size: 1rem;
+    margin-right: 10px;
+}

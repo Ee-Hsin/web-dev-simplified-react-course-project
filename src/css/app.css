@@ -6,6 +6,7 @@
 @import 'recipe.css';
 @import 'ingredient-list.css';
 @import 'recipe-edit.css';
+@import 'searchBar.css';
 
 *,*::before,*::after {
     font-family: Gotham Rounded, sans-serif;
@@ -23,4 +24,8 @@ body{
 
 .mr-1{
     margin-right: 5px;
+}
+
+.app-recipe-list-edit-container{
+    position: relative;
 }

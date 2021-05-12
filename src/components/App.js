@@ -3,6 +3,7 @@ import RecipeList from './RecipeList';
 import RecipeEdit from './RecipeEdit';
 import '../css/app.css';
 import { v4 as uuidv4 } from 'uuid';
+import SearchBar from './SearchBar';
 
 export const RecipeContext = React.createContext();
 const LOCAL_STORAGE_KEY = 'cookingWithReact.recipes';
@@ -16,6 +17,8 @@ function App() {
   const [selectedRecipeId, setSelectedRecipeId] = useState(); 
   const selectedRecipe = recipes.find(recipe => recipe.id === selectedRecipeId); //Using the selectedRecipeId to get
   //the selected recipe.
+  const [searchQuery, setSearchQuery] = useState('');
+  const filteredRecipes = recipes.filter(recipe => recipe.name.includes(searchQuery));
 
   //useEffect to restore past state from local storage
   useEffect(() => {
@@ -38,6 +41,11 @@ function App() {
     handleRecipeChange: handleRecipeChange
   }
 
+  function handleSearch(searchQuery){
+    console.log(searchQuery);
+    setSearchQuery(searchQuery);
+  }
+
   function handleRecipeChange(id, recipe){
     const newRecipes = [...recipes];
     const index = newRecipes.findIndex(r => r.id === id);
@@ -51,31 +59,42 @@ function App() {
 
   //function to delete recipe
   function handleRecipeDelete(id) {
+
+    if(selectedRecipeId !== null && selectedRecipeId === id){
+      setSelectedRecipeId(undefined)
+    }
     setRecipes(prevRecipes => prevRecipes.filter(recipe => recipe.id !== id))
   }
   //function to add recipe
   function handleRecipeAdd() {
+
+    const newId = uuidv4();
+
     const newRecipe = {
-      id: uuidv4(),
-      name: 'New',
+      id: newId,
+      name: '',
       servings: 1,
-      cookTime: '1:00',
-      instructions: 'Instr.',
+      cookTime: '',
+      instructions: '',
       ingredients: [
-        {id: uuidv4(), name: 'Name', amount: '1 Tbs'}
+        {id: uuidv4(), name: '', amount: ''}
       ]
     }
-    setRecipes(prevRecipes => [...prevRecipes, newRecipe])
+    setRecipes(prevRecipes => [...prevRecipes, newRecipe]);
+    setSelectedRecipeId(newId);
   }
 
   return (
     <div>
-      <RecipeContext.Provider value={RecipeContextValue}>
-        <RecipeList 
-          recipes={recipes}
-        />
-        {selectedRecipe && <RecipeEdit recipe={selectedRecipe}/>}
-      </RecipeContext.Provider>
+      <SearchBar handleSearch={handleSearch}/> 
+      <div className="app-recipe-list-edit-container">
+        <RecipeContext.Provider value={RecipeContextValue}>
+          <RecipeList 
+            recipes={filteredRecipes || recipes}
+          />
+          {selectedRecipe && <RecipeEdit recipe={selectedRecipe}/>}
+        </RecipeContext.Provider>
+      </div>
     </div>
   );
 }
